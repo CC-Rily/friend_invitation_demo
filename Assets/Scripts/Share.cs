@@ -5,35 +5,40 @@ using UnityEngine.UI;
 
 public class Share : MonoBehaviour
 {
-
+	//public string username;
 	public Text Button;
+
+	string Username;
+	int Coins;
+	string Link;
+
 	// Start is called before the first frame update
 	public void SendInvitation()
 	{
-		//yield return new WaitForEndOfFrame();
-
-		//Texture2D ss = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-		//ss.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
-		//ss.Apply();
-
-		//string filePath = "Hello World!";
-		//File.WriteAllBytes(filePath, ss.EncodeToPNG());
-
-		// To avoid memory leaks
-		//Destroy(ss);
-		//Debug.Log("hi");
+		//Todo
+		//This information is got from some global variables
+		//Please define them in your code
+		Username = "Joey";
+		Coins = 10;
+		Link = "www.google.com";
+		
 		new NativeShare()
-			.SetSubject("Subject goes here")
-			.SetText("Hello world!")
-			.SetUrl("https://github.com/yasirkula/UnityNativeShare")
+			.SetSubject("You receive an invitation!")
+			.SetText("Hello! Your friend " + Username +
+			"wants to invite you to project Minions, click the link below to get your initial coins!")
+			.SetUrl(Link)
 			.SetCallback((result, shareTarget) =>
 			{
 				Debug.Log("Share result: " + result + ", selected app: " + shareTarget);
 				Button.text = result.ToString();
 				if (result != NativeShare.ShareResult.NotShared)
 				{
+                    //get a linkID
+                    string linkId = LinkIDGenerator.getUUIDLinkId();
+
 					//Todo: save an escrew into the DB
 					//call the API 'Post /create-escrow'
+					//call the API 'PUT /update-coins'
 				}
 				else
 				{
